@@ -1,0 +1,22 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "link-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :hash %>
+  <%= text_input f, :hash %>
+  <%= error_tag f, :hash %>
+
+  <%= label f, :url %>
+  <%= text_input f, :url %>
+  <%= error_tag f, :url %>
+
+  <%= label f, :ref_count %>
+  <%= number_input f, :ref_count %>
+  <%= error_tag f, :ref_count %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>
