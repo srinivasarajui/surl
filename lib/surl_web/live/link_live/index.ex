@@ -6,6 +6,7 @@ defmodule SurlWeb.LinkLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Surl.Links.subscribe()
     {:ok, assign(socket, :links, fetch_links())}
   end
 
@@ -38,6 +39,11 @@ defmodule SurlWeb.LinkLive.Index do
     {:ok, _} = Links.delete_link(link)
 
     {:noreply, assign(socket, :links, fetch_links())}
+  end
+
+  @impl true
+  def handle_info({:url_used, link}, socket) do
+    {:noreply, update(socket, :links, fn links -> [link|links] end)}
   end
 
   defp fetch_links do

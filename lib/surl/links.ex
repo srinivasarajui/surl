@@ -37,6 +37,14 @@ defmodule Surl.Links do
   """
   def get_link!(id), do: Repo.get!(Link, id)
 
+  def get_link_url(hash) do
+    {1, links} =  from(l in Link, where: l.hash == ^hash, select: l )
+                |> Repo.update_all(inc: [ref_count: 1])
+                broadcast(links,:url_used)
+    %{ url: url }   =  Enum.at(links,0)
+    url
+  end
+
   @doc """
   Creates a link.
 
@@ -100,5 +108,12 @@ defmodule Surl.Links do
   """
   def change_link(%Link{} = link, attrs \\ %{}) do
     Link.changeset(link, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Surl.PubSub, "links")
+  end
+  defp broadcast( link , event) do
+    Phoenix.PubSub.broadcast(Surl.PubSub, "links", {event, link})
   end
 end

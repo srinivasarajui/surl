@@ -4,7 +4,7 @@ defmodule Surl.Links.Link do
 
   schema "links" do
     field :hash, :string
-    field :ref_count, :integer
+    field :ref_count, :integer, default: 0
     field :url, :string
 
     timestamps()

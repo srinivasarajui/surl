@@ -17,7 +17,10 @@ defmodule SurlWeb.Router do
   scope "/", SurlWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", LinkLive.Index, :index
+    live "/links/new", LinkLive.Index, :new
+    live "/links/:id/edit", LinkLive.Index, :edit
+
   end
 
   # Other scopes may use custom stacks.
@@ -40,4 +43,9 @@ defmodule SurlWeb.Router do
       live_dashboard "/dashboard", metrics: SurlWeb.Telemetry
     end
   end
+
+  scope "/", ShortenApiWeb do
+    get "/:hash", LinkController, :get_and_redirect
+  end
+
 end
