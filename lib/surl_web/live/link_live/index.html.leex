@@ -1,4 +1,5 @@
-<h1>Listing Links</h1>
+<h2>Listing Links</h2>
+<span><%= live_patch "New Link", to: Routes.link_index_path(@socket, :new) %></span>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, SurlWeb.LinkLive.FormComponent,
@@ -35,4 +36,3 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Link", to: Routes.link_index_path(@socket, :new) %></span>

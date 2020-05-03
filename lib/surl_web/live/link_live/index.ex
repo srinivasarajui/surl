@@ -38,7 +38,7 @@ defmodule SurlWeb.LinkLive.Index do
     link = Links.get_link!(id)
     {:ok, _} = Links.delete_link(link)
 
-    {:noreply, assign(socket, :links, fetch_links())}
+    {:noreply, update(socket, :links, fetch_links())}
   end
 
   @impl true
